@@ -1,0 +1,30 @@
+@tailwind base;
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+}
+
+@tailwind components;
+
+@layer components {
+  .btn {
+    @apply font-normal text-base;
+  }
+}
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  @apply bg-base-200 w-2 h-2;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral rounded-xl;
+}
