@@ -7,16 +7,16 @@ module.exports = {
   daisyui: {
     themes: [
       {
-        repeatmeal: {
-          primary: '#f87171',
-          secondary: '#fde68a',
-          accent: '#fda4af',
-          neutral: '#1F2D37',
-          'base-100': '#374151',
-          info: '#A2D3EC',
-          success: '#118D51',
-          warning: '#F0B719',
-          error: '#F26464',
+        wra: {
+          primary: '#6b6bef',
+          secondary: '#06b6d4',
+          accent: '#f49fa3',
+          neutral: '#1C1C22',
+          'base-100': '#20294B',
+          info: '#A8E3F0',
+          success: '#2CC99A',
+          warning: '#fcd34d',
+          error: '#F41D15',
           '--btn-text-case': 'none',
         },
       },

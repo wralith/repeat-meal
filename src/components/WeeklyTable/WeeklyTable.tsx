@@ -1,6 +1,6 @@
 import { Component, For } from 'solid-js'
 import Row from './Row'
-import { WeekDay } from '@/interfaces/Week'
+import { WeekDay } from '@/interfaces'
 import weekStore from '@/stores/weekStore'
 
 interface Props {
@@ -17,7 +17,7 @@ const WeeklyTable: Component<Props> = props => {
   }
 
   return (
-    <div class="p-4 gap-4 flex flex-col">
+    <div class="p-2 md:w-10/12 lg:w-1/2 m-auto gap-4 flex flex-col">
       <For each={props.weekMenu} fallback={<div>Loading...</div>}>
         {day => <Row title={day.name} meals={day.meals}></Row>}
       </For>

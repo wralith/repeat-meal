@@ -1,5 +1,5 @@
 import { Meal } from '@/interfaces/Meal'
-import { Component, createEffect, For } from 'solid-js'
+import { Component, For } from 'solid-js'
 import Item from './Item'
 import weekStore from '@/stores/weekStore'
 
@@ -19,10 +19,10 @@ const Row: Component<Props> = props => {
   }
 
   return (
-    <div class="w-10/12 m-auto p-4 py-8 border-base-300/50 border-4 rounded-xl">
+    <div class="w-full m-auto p-4 py-8 border-base-300/50 border-4 rounded-xl">
       <h3 class="text-2xl font-bold text-secondary">{props.title}</h3>
       <div class="h-6" />
-      <div class="flex gap-3 w-full justify-start">
+      <div class="flex flex-col md:flex-row gap-3 w-full justify-start">
         <input class="input input-bordered" type="text" placeholder="Food Name" ref={name} />
         <input class="input input-bordered w-24" type="text" placeholder="Calories" ref={cal} />
         <button class="btn" onclick={() => handleAddItem(name!.value.trim(), parseInt(cal!.value.trim()))}>

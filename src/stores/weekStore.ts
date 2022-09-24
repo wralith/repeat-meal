@@ -1,5 +1,5 @@
-import { Meal } from '@/interfaces/Meal'
-import { WeekDay } from '@/interfaces/Week'
+import { Meal } from '@/interfaces'
+import { WeekDay } from '@/interfaces'
 import { createRoot } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
