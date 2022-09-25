@@ -1,13 +1,11 @@
-import type { Component } from 'solid-js'
-import weekStore from '@/stores/weekStore'
-import Layout from '@/components/layouts/Layout'
-import WeeklyTable from '@/components/WeeklyTable/WeeklyTable'
+import AppLayout from './components/AppLayout'
+import WeeklyPlan from './features/WeeklyPlan/WeeklyPlan'
 
-const App: Component = () => {
+function App() {
   return (
-    <Layout>
-      <WeeklyTable weekMenu={weekStore.get} />
-    </Layout>
+    <AppLayout>
+      <WeeklyPlan />
+    </AppLayout>
   )
 }
 

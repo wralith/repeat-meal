@@ -1,18 +1,13 @@
-import { fileURLToPath, URL } from 'url'
 import { defineConfig } from 'vite'
-import solidPlugin from 'vite-plugin-solid'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [solidPlugin()],
-  server: {
-    port: 3000,
-  },
-  build: {
-    target: 'esnext',
-  },
+  plugins: [react()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
+      '@': path.resolve(__dirname, './src')
+    }
+  }
 })
