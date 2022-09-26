@@ -1,6 +1,7 @@
 import { Day, Meal } from '@/interfaces'
 import useMenuStore from '@/stores/menuStore'
-import { Button, createStyles, Group, Paper, ScrollArea, Space, TextInput, Title } from '@mantine/core'
+import { ActionIcon, Button, createStyles, Group, Paper, ScrollArea, Space, TextInput, Title } from '@mantine/core'
+import { IconX } from '@tabler/icons'
 import { useEffect, useState } from 'react'
 import Item from './Item'
 
@@ -20,6 +21,7 @@ interface Props {
 function Row({ day }: Props) {
   const { classes } = useStyles()
   const addMeal = useMenuStore(state => state.addMeal)
+  const removeDay = useMenuStore(state => state.removeDay)
 
   const [mealInput, setMealInput] = useState('')
   let newMeal: Meal
@@ -33,7 +35,12 @@ function Row({ day }: Props) {
 
   return (
     <Paper shadow="sm" p="lg">
-      <Title order={2}>{day.name}</Title>
+      <Group position="apart" style={{ width: '100%' }}>
+        <Title order={2}>{day.name}</Title>
+        <ActionIcon onClick={() => removeDay(day.name)}>
+          <IconX />
+        </ActionIcon>
+      </Group>
       <Space h="sm" />
       <Group>
         <TextInput placeholder="Meal Name" value={mealInput} onChange={e => setMealInput(e.currentTarget.value)} />
@@ -44,9 +51,7 @@ function Row({ day }: Props) {
 
       <ScrollArea>
         <Group className={classes.itemGroup}>
-          {day.meals.map(meal => (
-            <Item key={meal.name} meal={meal} />
-          ))}
+          {day && day.name && day.meals.map(meal => <Item day={day.name} key={meal.name} meal={meal} />)}
         </Group>
       </ScrollArea>
     </Paper>
