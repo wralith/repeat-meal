@@ -1,13 +1,11 @@
-import { Day } from '@/interfaces'
-import useMenuStore from '@/stores/menuStore'
-import getDay from '@/utils/getDay'
-import { Autocomplete, Button, Container, Group, Input, Space, Stack, TextInput } from '@mantine/core'
-import { DatePicker, DateRangePickerProps, DateRangePickerValue } from '@mantine/dates'
+import { Button, Container, Group, Space, Stack, Text, TextInput, Title } from '@mantine/core'
+import { DatePicker } from '@mantine/dates'
 import { IconCalendar } from '@tabler/icons'
 import { useEffect, useState } from 'react'
-import Row from './Row'
 
-const dummyPlan: Day[] = [{ name: 'Monday', meals: [{ name: 'Test Meal', isDone: false }] }]
+import useMenuStore from '@/stores/menuStore'
+import getDay from '@/utils/getDay'
+import Row from './Row'
 
 function WeeklyPlan() {
   const menu = useMenuStore(state => state.menu)
@@ -22,17 +20,27 @@ function WeeklyPlan() {
     }
   }, [dateInput, setDateInput])
 
-  useEffect(() => {
-    console.log(menu)
-  }, [menu])
+  const handleAddDay = () => {
+    if (dayInput) {
+      addDay(dayInput)
+      setDayInput('')
+      setDateInput(null)
+    }
+  }
 
   return (
     <Container>
-      <Stack align="stretch">
-        {menu && menu.map(day => (
-          <Row key={day.name} day={day} />
-        ))}
-      </Stack>
+      {menu.length > 0 ? (
+        <Stack align="stretch">{menu && menu.map(day => <Row key={day.id} day={day} />)}</Stack>
+      ) : (
+        <Stack pt={100}>
+          <Title order={2} py="xl">
+            Pick a day to start shaping your menu! 🐱
+          </Title>
+          <Text style={{ opacity: '60%' }}>You can name the day!</Text>
+          <Space h="xl" />
+        </Stack>
+      )}
       <Space h="lg" />
       <Group>
         <DatePicker
@@ -42,7 +50,7 @@ function WeeklyPlan() {
           onChange={setDateInput}
         />
         <TextInput value={dayInput} onChange={e => setDayInput(e.currentTarget.value)} placeholder="Name of the Day" />
-        <Button onClick={() => addDay(dayInput)}>Add day</Button>
+        <Button onClick={handleAddDay}>Add day</Button>
       </Group>
     </Container>
   )

@@ -1,59 +1,58 @@
-import { Day, Meal, WeekDay } from '@/interfaces'
 import create from 'zustand'
+import { v4 as uuidv4 } from 'uuid'
 
-const initialWeek: Day[] = [{ name: 'Monday', meals: [{ name: 'Test Food', calories: 300, isDone: false }] }]
+import { Day, Meal, WeekDay } from '@/interfaces'
+
+const initialWeek: Day[] = []
 
 interface MenuState {
   menu: Day[]
   addDay: (name: WeekDay | string) => void
-  removeDay: (name: string) => void
-  addMeal: (dayName: string, meal: Meal) => void
-  removeMeal: (dayName: string, mealName: string) => void
-  updateMeal: (dayName: string, meal: Meal) => void
-  toggleIsDone: (dayName: string, meal: Meal) => void
+  removeDay: (id: string) => void
+  addMeal: (dayId: string, meal: Meal) => void
+  removeMeal: (dayId: string, mealId: string) => void
+  updateMeal: (dayId: string, meal: Meal) => void
+  toggleIsDone: (dayId: string, meal: Meal) => void
 }
 
-// TODO: Unique keys? Raise error if same name given different units since name property used as a key!
-// TODO: Refactor, extract actions maybe with generics
+// TODO: Refactor, extract actions to another file, maybe with generics
 const useMenuStore = create<MenuState>()((set, get) => ({
   menu: initialWeek,
 
-  addDay: name => set(state => ({ menu: [...state.menu, { name, meals: [] }] })),
+  addDay: name => set(state => ({ menu: [...state.menu, { id: uuidv4(), name, meals: [] }] })),
 
-  removeDay: name =>
+  removeDay: id =>
     set(state => {
-      const newWeek = state.menu.filter(day => day.name !== name)
+      const newWeek = state.menu.filter(day => day.id !== id)
       return { menu: newWeek }
     }),
 
-  addMeal: (dayName, meal) =>
+  addMeal: (dayId, meal) =>
     set(state => {
-      const newWeek = state.menu.map(day =>
-        day.name === dayName ? (day = { ...day, meals: [...day.meals, meal] }) : day
-      )
+      const newWeek = state.menu.map(day => (day.id === dayId ? (day = { ...day, meals: [...day.meals, meal] }) : day))
       return { menu: newWeek }
     }),
 
-  removeMeal: (dayName, mealName) => {
+  removeMeal: (dayId, mealId) => {
     set(state => {
       const newWeek = state.menu.map(day =>
-        day.name === dayName ? (day = { ...day, meals: day.meals.filter(meal => meal.name !== mealName) }) : day
+        day.id === dayId ? (day = { ...day, meals: day.meals.filter(meal => meal.id !== mealId) }) : day
       )
       return { menu: newWeek }
     })
   },
 
-  updateMeal: (dayName, meal) => {
+  updateMeal: (dayId, meal) => {
     set(state => {
       const newWeek = state.menu.map(day =>
-        day.name === dayName ? (day = { ...day, meals: day.meals.map(m => (m.name === meal.name ? meal : m)) }) : day
+        day.id === dayId ? (day = { ...day, meals: day.meals.map(m => (m.id === meal.id ? meal : m)) }) : day
       )
 
       return { menu: newWeek }
     })
   },
 
-  toggleIsDone: (dayName, meal) => get().updateMeal(dayName, { ...meal, isDone: !meal.isDone })
+  toggleIsDone: (dayId, meal) => get().updateMeal(dayId, { ...meal, isDone: !meal.isDone })
 }))
 
 export default useMenuStore

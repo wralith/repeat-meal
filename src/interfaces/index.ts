@@ -1,4 +1,5 @@
 export interface Meal {
+  id: string
   name: string
   description?: string
   recipe?: string
@@ -10,6 +11,7 @@ export interface Meal {
 export type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
 
 export interface Day {
+  id: string
   name: WeekDay | string
   meals: Meal[]
 }
