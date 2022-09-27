@@ -3,19 +3,22 @@ import { IconX } from '@tabler/icons'
 
 import { Meal } from '@/interfaces'
 import useMenuStore from '@/stores/menuStore'
+import { hourAndMinute } from '@/utils/time'
 
-const useStyles = (isDone: boolean) => createStyles(theme => ({
-  item: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100%',
-    minWidth: '18rem',
-    height: '12rem',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.brand[0] : theme.colors.brand[1],
-    opacity: isDone ? '70%' : '100%',
-    justifyContent: 'space-between'
-  }
-}))()
+const useStyles = (isDone: boolean) =>
+  createStyles(theme => ({
+    item: {
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100%',
+      minWidth: '18rem',
+      width: 'max-content',
+      height: '14rem',
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.brand[0] : theme.colors.brand[1],
+      opacity: isDone ? '70%' : '100%',
+      justifyContent: 'space-between'
+    }
+  }))()
 
 interface Props {
   meal: Meal
@@ -27,19 +30,29 @@ function Item({ meal, dayId }: Props) {
   const removeMeal = useMenuStore(state => state.removeMeal)
   const toggleIsDone = useMenuStore(state => state.toggleIsDone)
 
+  const time = new Date(meal.time)
+  const plannedTime = hourAndMinute(time)
+
   return (
-    <Paper className={classes.item} shadow="sm" radius="md" p="lg">
+    <Paper className={classes.item} shadow="sm" radius="md" p="md">
       <Stack align="flex-start" justify="flex-start" spacing="xs">
         <Group position="apart" style={{ width: '100%' }}>
-          <Code>00:00</Code>
+          <Code>{plannedTime}</Code>
           <ActionIcon onClick={() => removeMeal(dayId, meal.id)}>
             <IconX />
           </ActionIcon>
         </Group>
         <Title order={4}>{meal.name}</Title>
-        <Text>{meal.description}</Text>
+        <Text style={{ maxWidth: '24rem' }} size="sm">
+          {meal.description}
+        </Text>
       </Stack>
-      <Chip checked={meal.isDone} onClick={() => toggleIsDone(dayId, meal)} variant="filled">
+      <Chip
+        style={{ alignSelf: 'end' }}
+        checked={meal.isDone}
+        onClick={() => toggleIsDone(dayId, meal)}
+        variant="filled"
+      >
         Done
       </Chip>
     </Paper>

@@ -5,7 +5,8 @@ Failed to create zustand like store, there were lots of re-renders i failed with
 
 Maybe uuid was an overkill 🤷
 
-example: `./stores/weekStore`
+## Todos:
+- View that hold meal cards and meal modal on click
 
 `pnpm install`  
 `pnpm dev`

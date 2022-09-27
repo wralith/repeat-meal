@@ -4,7 +4,7 @@ export interface Meal {
   description?: string
   recipe?: string
   calories?: number
-  time?: Date
+  time: Date
   isDone: boolean
 }
 
