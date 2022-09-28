@@ -34,7 +34,12 @@ function SetColor({ meal, dayId }: Props) {
           onChange={setColorValue}
           withPicker={false}
           fullWidth
-          swatches={[...DEFAULT_THEME.colors.red, ...DEFAULT_THEME.colors.green, ...DEFAULT_THEME.colors.blue, ...DEFAULT_THEME.colors.violet]}
+          swatches={[
+            ...DEFAULT_THEME.colors.red,
+            ...DEFAULT_THEME.colors.green,
+            ...DEFAULT_THEME.colors.blue,
+            ...DEFAULT_THEME.colors.violet
+          ]}
         />
       </Popover.Dropdown>
     </Popover>
