@@ -1,4 +1,4 @@
-import { Button, Container, Group, Space, Stack, Text, TextInput, Title } from '@mantine/core'
+import { Button, Container, createStyles, Group, Space, Stack, Text, TextInput, Title } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
 import { IconCalendar } from '@tabler/icons'
 import { useEffect, useState } from 'react'
@@ -7,9 +7,19 @@ import useMenuStore from '@/stores/menuStore'
 import getDay from '@/utils/getDay'
 import Row from './Row'
 
+const useStyles = createStyles(theme => ({
+  buttonGroup: {
+    display: 'flex',
+    [`@media (max-width: ${theme.breakpoints.lg}px)`]: {
+      flexDirection: 'column'
+    }
+  }
+}))
+
 function WeeklyPlan() {
   const menu = useMenuStore(state => state.menu)
   const addDay = useMenuStore(state => state.addDay)
+  const { classes } = useStyles()
 
   const [dayInput, setDayInput] = useState('')
   const [dateInput, setDateInput] = useState<Date | null>(new Date())
@@ -42,7 +52,7 @@ function WeeklyPlan() {
         </Stack>
       )}
       <Space h="lg" />
-      <Group>
+      <Group className={classes.buttonGroup}>
         <DatePicker
           placeholder="Pick a date"
           icon={<IconCalendar size={16} />}

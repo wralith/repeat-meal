@@ -14,9 +14,14 @@ const useStyles = (isDone: boolean) =>
       minWidth: '18rem',
       width: 'max-content',
       height: '14rem',
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.brand[0] : theme.colors.brand[1],
-      opacity: isDone ? '70%' : '100%',
-      justifyContent: 'space-between'
+      backgroundColor: isDone
+        ? theme.colors.gray[5]
+        : theme.colorScheme === 'dark'
+        ? theme.colors.brand[0]
+        : theme.colors.brand[1],
+      opacity: isDone ? '50%' : '100%',
+      justifyContent: 'space-between',
+      transition: 'all 1s'
     }
   }))()
 

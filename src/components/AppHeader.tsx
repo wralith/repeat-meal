@@ -1,4 +1,7 @@
-import { Anchor, Button, createStyles, Group, Header, MediaQuery, Navbar, Title } from '@mantine/core'
+import { Anchor, Burger, Button, createStyles, Drawer, Group, MediaQuery, Menu, Space, Stack } from '@mantine/core'
+
+import { useState } from 'react'
+import Brand from './Brand'
 
 const menuItems = ['Home', 'Statistics', 'Weekly']
 const useStyles = createStyles(theme => ({
@@ -10,33 +13,43 @@ const useStyles = createStyles(theme => ({
     padding: '0 1rem'
   },
 
-  brandLogo: {
-    color: theme.colorScheme === 'dark' ? theme.colors.brand[0] : theme.colors.brand[6]
-  },
-
   navButton: {
     fontWeight: 'normal'
   }
 }))
 
+const MenuItems = (navButton: string) =>
+  menuItems.map(item => (
+    <Anchor key={`lg-${item}`}>
+      <Button className={navButton} variant="subtle">
+        {item}
+      </Button>
+    </Anchor>
+  ))
+
 function AppHeader(props: any) {
   const { classes } = useStyles()
+  const [burgerOpened, setBurgerOpened] = useState(false)
 
   return (
     <Group className={classes.container}>
-      <Title order={3} className={classes.brandLogo}>
-        Repeat Meal
-      </Title>
+      <Brand />
+
       <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-        <Group>
-          {menuItems.map(item => (
-            <Anchor key={item}>
-              <Button className={classes.navButton} variant="subtle">
-                {item}
-              </Button>
-            </Anchor>
-          ))}
-        </Group>
+        <Group>{MenuItems(classes.navButton)}</Group>
+      </MediaQuery>
+
+      <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+        <Menu>
+          <Burger opened={burgerOpened} onClick={() => setBurgerOpened(!burgerOpened)} />
+          <Drawer opened={burgerOpened} onClose={() => setBurgerOpened(false)} position="top">
+            <Stack align="center">
+              <Brand />
+              <Space h="lg" />
+              {MenuItems(classes.navButton)}
+            </Stack>
+          </Drawer>
+        </Menu>
       </MediaQuery>
     </Group>
   )
