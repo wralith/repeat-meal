@@ -6,6 +6,7 @@ export interface Meal {
   calories?: number
   time: Date
   isDone: boolean
+  displayColor?: string
 }
 
 export type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'

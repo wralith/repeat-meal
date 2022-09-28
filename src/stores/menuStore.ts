@@ -14,8 +14,10 @@ interface MenuState {
   removeMeal: (dayId: string, mealId: string) => void
   updateMeal: (dayId: string, meal: Meal) => void
   toggleIsDone: (dayId: string, meal: Meal) => void
+  changeColor: (dayId: string, meal: Meal, color: string) => void
 }
 
+// TODO: Meal args to mealId
 // TODO: Refactor, extract actions to another file, maybe with generics
 const useMenuStore = create<MenuState>()(
   persist(
@@ -57,8 +59,11 @@ const useMenuStore = create<MenuState>()(
         })
       },
 
-      toggleIsDone: (dayId, meal) => get().updateMeal(dayId, { ...meal, isDone: !meal.isDone })
+      toggleIsDone: (dayId, meal) => get().updateMeal(dayId, { ...meal, isDone: !meal.isDone }),
+
+      changeColor: (dayId, meal, color) => get().updateMeal(dayId, { ...meal, displayColor: color })
     }),
+
     { name: 'menu' }
   )
 )

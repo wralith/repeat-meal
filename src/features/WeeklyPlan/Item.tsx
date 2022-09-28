@@ -4,8 +4,9 @@ import { IconX } from '@tabler/icons'
 import { Meal } from '@/interfaces'
 import useMenuStore from '@/stores/menuStore'
 import { hourAndMinute } from '@/utils/time'
+import SetColor from './SetColor'
 
-const useStyles = (isDone: boolean) =>
+const useStyles = (isDone: boolean, displayColor?: string) =>
   createStyles(theme => ({
     item: {
       display: 'flex',
@@ -14,11 +15,7 @@ const useStyles = (isDone: boolean) =>
       minWidth: '18rem',
       width: 'max-content',
       height: '14rem',
-      backgroundColor: isDone
-        ? theme.colors.gray[5]
-        : theme.colorScheme === 'dark'
-        ? theme.colors.brand[0]
-        : theme.colors.brand[1],
+      backgroundColor: displayColor || theme.colors.brand[1],
       opacity: isDone ? '50%' : '100%',
       justifyContent: 'space-between',
       transition: 'all 1s'
@@ -31,7 +28,7 @@ interface Props {
 }
 
 function Item({ meal, dayId }: Props) {
-  const { classes } = useStyles(meal.isDone)
+  const { classes } = useStyles(meal.isDone, meal.displayColor)
   const removeMeal = useMenuStore(state => state.removeMeal)
   const toggleIsDone = useMenuStore(state => state.toggleIsDone)
 
@@ -52,14 +49,12 @@ function Item({ meal, dayId }: Props) {
           {meal.description}
         </Text>
       </Stack>
-      <Chip
-        style={{ alignSelf: 'end' }}
-        checked={meal.isDone}
-        onClick={() => toggleIsDone(dayId, meal)}
-        variant="filled"
-      >
-        Done
-      </Chip>
+      <Group style={{ justifyContent: 'space-between' }}>
+        <SetColor meal={meal} dayId={dayId} />
+        <Chip checked={meal.isDone} onClick={() => toggleIsDone(dayId, meal)} variant="filled">
+          Done
+        </Chip>
+      </Group>
     </Paper>
   )
 }
