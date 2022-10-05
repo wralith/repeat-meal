@@ -1,4 +1,4 @@
-import { ActionIcon, Chip, Code, createStyles, Group, Paper, Stack, Text, Title } from '@mantine/core'
+import { ActionIcon, Chip, Code, createStyles, Group, Paper, ScrollArea, Stack, Text, Title } from '@mantine/core'
 import { IconX } from '@tabler/icons'
 
 import { Meal } from '@/interfaces'
@@ -44,10 +44,14 @@ function Item({ meal, dayId }: Props) {
             <IconX />
           </ActionIcon>
         </Group>
-        <Title order={4}>{meal.name}</Title>
-        <Text style={{ maxWidth: '24rem' }} size="sm">
-          {meal.description}
-        </Text>
+        <Stack style={{ width: '100%', overflow: 'auto', maxHeight: '7rem' }}>
+          <ScrollArea>
+            <Title order={4}>{meal.name}</Title>
+            <Text style={{ maxWidth: '24rem', whiteSpace: 'pre-line' }} size="sm">
+              {meal.description}
+            </Text>
+          </ScrollArea>
+        </Stack>
       </Stack>
       <Group style={{ justifyContent: 'space-between' }}>
         <SetColor meal={meal} dayId={dayId} />
