@@ -21,6 +21,7 @@ import { Day, Meal } from '@/interfaces'
 import useMenuStore from '@/stores/menuStore'
 import Item from './Item'
 import { TimeInput } from '@mantine/dates'
+import useHistoryStore from '@/stores/history'
 
 const useStyles = createStyles(theme => ({
   itemGroup: {
@@ -38,6 +39,7 @@ interface Props {
 function Row({ day }: Props) {
   const { classes } = useStyles()
   const addMeal = useMenuStore(state => state.addMeal)
+  const addMealToHistory = useHistoryStore(state => state.addMeal)
   const removeDay = useMenuStore(state => state.removeDay)
 
   const [showInputGroup, setShowInputGroup] = useState(false)
@@ -56,6 +58,7 @@ function Row({ day }: Props) {
       }
 
       addMeal(day.id, newMeal)
+      addMealToHistory(newMeal)
       setMealInput('')
       setDescInput('')
     }

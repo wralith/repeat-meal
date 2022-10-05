@@ -17,7 +17,6 @@ interface MenuState {
   changeColor: (dayId: string, meal: Meal, color: string) => void
 }
 
-// TODO: Meal args to mealId
 // TODO: Refactor, extract actions to another file, maybe with generics
 const useMenuStore = create<MenuState>()(
   persist(
