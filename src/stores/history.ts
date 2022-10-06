@@ -10,25 +10,28 @@ interface HistoryState {
 }
 
 const useHistoryStore = create<HistoryState>()(
-  persist((set, get) => ({
-    history: [],
+  persist(
+    (set, get) => ({
+      history: [],
 
-    addMeal: meal =>
-      set(state => {
-        let newHistory = [...state.history, meal]
+      addMeal: meal =>
+        set(state => {
+          let newHistory = [...state.history, meal]
 
-        if (state.history.length > 5) {
-          newHistory = newHistory.filter((_, i) => i !== 0)
-        }
-        return { history: newHistory }
-      }),
+          if (state.history.length > 10) {
+            newHistory = newHistory.filter((_, i) => i !== 0)
+          }
+          return { history: newHistory }
+        }),
 
-    removeMeal: name =>
-      set(state => {
-        const newHistory = state.history.filter(meal => meal.name !== name)
-        return { history: newHistory }
-      })
-  }))
+      removeMeal: name =>
+        set(state => {
+          const newHistory = state.history.filter(meal => meal.name !== name)
+          return { history: newHistory }
+        })
+    }),
+    { name: 'history' }
+  )
 )
 
 export default useHistoryStore
