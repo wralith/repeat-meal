@@ -15,4 +15,5 @@ export interface Day {
   id: string
   name: WeekDay | string
   meals: Meal[]
+  time: Date
 }

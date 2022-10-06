@@ -31,8 +31,8 @@ function WeeklyPlan() {
   }, [dateInput, setDateInput])
 
   const handleAddDay = () => {
-    if (dayInput) {
-      addDay(dayInput)
+    if (dayInput && dateInput) {
+      addDay(dayInput, dateInput)
       setDayInput('')
       setDateInput(null)
     }

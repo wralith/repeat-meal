@@ -8,7 +8,7 @@ const initialWeek: Day[] = []
 
 interface MenuState {
   menu: Day[]
-  addDay: (name: WeekDay | string) => void
+  addDay: (name: WeekDay | string, time: Date) => void
   removeDay: (id: string) => void
   addMeal: (dayId: string, meal: Meal) => void
   removeMeal: (dayId: string, mealId: string) => void
@@ -23,7 +23,12 @@ const useMenuStore = create<MenuState>()(
     (set, get) => ({
       menu: initialWeek,
 
-      addDay: name => set(state => ({ menu: [...state.menu, { id: uuidv4(), name, meals: [] }] })),
+      addDay: (name, time) =>
+        set(state => {
+          time.setHours(0, 0, 0, 0)
+          const newWeek = [...state.menu, { id: uuidv4(), time, name, meals: [] }]
+          return { menu: newWeek }
+        }),
 
       removeDay: id =>
         set(state => {
@@ -31,10 +36,22 @@ const useMenuStore = create<MenuState>()(
           return { menu: newWeek }
         }),
 
+        // TODO: It does not look good! There should be better way to implement this
       addMeal: (dayId, meal) =>
         set(state => {
+          const hours = meal.time.getHours()
+          const minutes = meal.time.getMinutes()
+
           const newWeek = state.menu.map(day =>
-            day.id === dayId ? (day = { ...day, meals: [...day.meals, meal] }) : day
+            {
+              if (day.id === dayId) {
+                const mealTime = new Date(day.time)
+                mealTime.setHours(hours, minutes)
+                return day = {...day, meals: [...day.meals, {...meal, time: mealTime}]}
+              } else {
+                return day
+              }
+            }
           )
           return { menu: newWeek }
         }),
